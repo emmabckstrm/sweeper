@@ -29,42 +29,50 @@ export const Square = ({
     onSecondClick();
   };
 
-  let style;
-  if (!isOpen) {
-    style = UNOPENED_CLASSES;
-  } else if (isBomb) {
-    style = BOMB_CLASSES;
-  } else {
-    style = OPENED_CLASSES;
-  }
+  const style = () => {
+    let style;
+    if (!isOpen) {
+      style = UNOPENED_CLASSES;
+    } else if (isBomb) {
+      style = BOMB_CLASSES;
+    } else {
+      style = OPENED_CLASSES;
+    }
+    return style;
+  };
 
-  let textColor;
-  switch (adjacentBombs) {
-    case 1:
-      textColor = "text-blue-500";
-      break;
-    case 2:
-      textColor = "text-green-500";
-      break;
-    case 3:
-      textColor = "text-red-500";
-      break;
-    case 4:
-      textColor = "text-indigo-800";
-      break;
-    case 5:
-      textColor = "text-red-800";
-      break;
-    case 6:
-      textColor = "text-cyan-600";
-      break;
-    case 7:
-      textColor = "text-purple-700";
-      break;
-    case 8:
-      textColor = "text-gray-600";
-      break;
-  }
+  const textColor = () => {
+    let color;
+    if (!isOpen || isBomb || isFlagged) return "text-black";
+
+    switch (adjacentBombs) {
+      case 1:
+        color = "text-blue-500";
+        break;
+      case 2:
+        color = "text-green-500";
+        break;
+      case 3:
+        color = "text-red-500";
+        break;
+      case 4:
+        color = "text-indigo-800";
+        break;
+      case 5:
+        color = "text-red-800";
+        break;
+      case 6:
+        color = "text-cyan-600";
+        break;
+      case 7:
+        color = "text-purple-700";
+        break;
+      case 8:
+        color = "text-gray-600";
+        break;
+    }
+    return color;
+  };
 
   const squareContent = () => {
     if (isFlagged) return "F";
@@ -75,7 +83,7 @@ export const Square = ({
 
   return (
     <button
-      className={`${BASE_CLASSES} ${textColor} ${style}`}
+      className={`${BASE_CLASSES} ${textColor()} ${style()}`}
       onClick={onClick}
       onContextMenu={handleSecondClick}
     >
