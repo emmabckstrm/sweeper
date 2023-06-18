@@ -1,11 +1,4 @@
-export interface SquareStatus {
-  isBomb: boolean;
-  isOpen: boolean;
-  adjacentBombs: number;
-}
-
-export type GameBoard = SquareStatus[][];
-export type Position = [number, number];
+import type { SquareStatus, GameBoard, Position } from "./types";
 
 export const initGameBoard = (rows: number, cols: number): GameBoard => {
   const board = [];
@@ -13,6 +6,7 @@ export const initGameBoard = (rows: number, cols: number): GameBoard => {
     isBomb: false,
     isOpen: false,
     adjacentBombs: 0,
+    isFlagged: false,
   };
   for (let row = 0; row < rows; row++) {
     const newRow: SquareStatus[] = [];

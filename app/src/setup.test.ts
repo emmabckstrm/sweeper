@@ -6,7 +6,7 @@ import {
   generateBombPositions,
   getAdjacentSquares,
 } from "./setup";
-import type { SquareStatus, GameBoard } from "./setup";
+import type { SquareStatus, GameBoard } from "./types";
 
 const verifyFalsyValueForKey = (
   key: keyof SquareStatus,

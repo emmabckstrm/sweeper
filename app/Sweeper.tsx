@@ -8,7 +8,13 @@ import {
   generateBombPositions,
   getAdjacentSquares,
 } from "./src/setup";
-import type { SquareStatus, GameBoard, Position } from "./src/setup";
+import type { SquareStatus, GameBoard, Position } from "./src/types";
+import {
+  updateBoardWithSquare,
+  getBoardWithOpenedSquares,
+  getNumberOfOpenSquares,
+  setAllSquaresToOpen,
+} from "./src/gamePlay";
 
 const WIDTH = 10;
 const HEIGHT = 10;
@@ -17,7 +23,7 @@ const NUMBER_OF_BOMBS = 2;
 export const Sweeper = () => {
   const [gameIsRunning, setGameIsRunning] = useState(false);
   const [gameBoard, setGameBoard] = useState<GameBoard>([]);
-  const [openedSquares, setOpenedSquares] = useState<number>(0);
+  const [numberOfOpenedSquares, setNumberOfOpenedSquares] = useState<number>(0);
   const [totalBombs, setTotalBombs] = useState<number>(0);
 
   const updateSquare = (
@@ -26,20 +32,8 @@ export const Sweeper = () => {
     newValue: Partial<SquareStatus>
   ) => {
     setGameBoard((prevBoard) => {
-      const newBoard = prevBoard.slice();
-      newBoard[row][col] = { ...newBoard[row][col], ...newValue };
-      return newBoard;
+      return updateBoardWithSquare(prevBoard, row, col, newValue);
     });
-  };
-  const updateBoardWithSquare = (
-    row: number,
-    col: number,
-    board: GameBoard,
-    newValue: Partial<SquareStatus>
-  ) => {
-    const newBoard = board.slice();
-    newBoard[row][col] = { ...newBoard[row][col], ...newValue };
-    return newBoard;
   };
 
   const handleOnGameInit = (rows: number, cols: number, bombs: number) => {
@@ -49,12 +43,9 @@ export const Sweeper = () => {
   };
 
   const handleOnGameStart = (
-    // rows: number,
-    // cols: number,
-    // bombs: number,
-    reservedPositions: Position[],
     row: number,
-    col: number
+    col: number,
+    reservedPositions: Position[]
   ) => {
     let board: GameBoard = [];
     const bombPositions = generateBombPositions(
@@ -66,7 +57,7 @@ export const Sweeper = () => {
     console.log("reservedPositions", reservedPositions);
     console.log("bombpos", bombPositions);
     bombPositions.forEach((position) => {
-      board = updateBoardWithSquare(position[0], position[1], gameBoard, {
+      board = updateBoardWithSquare(gameBoard, position[0], position[1], {
         isBomb: true,
       });
     });
@@ -89,44 +80,47 @@ export const Sweeper = () => {
             adjacentBombs += 1;
           }
         });
-        board = updateBoardWithSquare(adjacent[0], adjacent[1], board, {
+        board = updateBoardWithSquare(board, adjacent[0], adjacent[1], {
           adjacentBombs,
         });
       });
     });
 
+    board = getBoardWithOpenedSquares(row, col, board);
+
+    setNumberOfOpenedSquares(getNumberOfOpenSquares(board));
     setGameBoard(board);
     setGameIsRunning(true);
   };
 
   const openSquare = (row: number, col: number) => {
-    const square = gameBoard[row][col];
-    if (square.isOpen) {
-      return;
-    } else if (square.isBomb) {
-      console.log("YOU LOOSE!");
-    } else if (square.adjacentBombs > 0) {
-      console.log("OPEN SINGLE");
-    } else {
-      const adjacents = getAdjacentSquares(row, col, gameBoard);
-    }
+    const newBoard = getBoardWithOpenedSquares(row, col, gameBoard);
+    setNumberOfOpenedSquares(getNumberOfOpenSquares(newBoard));
+    setGameBoard(newBoard);
+  };
+
+  const flagSquare = (row: number, col: number) => {
+    updateSquare(row, col, { isFlagged: !gameBoard[row][col].isFlagged });
   };
 
   const handleOnSquareClick = (row: number, col: number) => {
     console.log("left click", row, col);
-    if (openedSquares === 0) {
+    if (numberOfOpenedSquares === 0) {
       const adjacents = getAdjacentSquares(row, col, gameBoard);
-      handleOnGameStart([...adjacents, [row, col]], row, col);
-      // TODO temp
-      setOpenedSquares(1);
-    } else if (!gameBoard[row][col].isOpen) {
-      openSquare(row, col);
+      handleOnGameStart(row, col, [...adjacents, [row, col]]);
+    } else if (!gameBoard[row][col].isOpen && !gameBoard[row][col].isFlagged) {
+      if (gameBoard[row][col].isBomb) {
+        console.log("YOU LOOSE!");
+        setGameBoard(setAllSquaresToOpen(gameBoard));
+      } else {
+        openSquare(row, col);
+      }
     }
-    // else open square
   };
 
   const handleOnSquareSecondClick = (row: number, col: number) => {
     console.log("right click", row, col);
+    flagSquare(row, col);
   };
 
   return (

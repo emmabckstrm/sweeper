@@ -1,0 +1,113 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getSquaresToOpen returns all adjacent unopened ones 1`] = `
+[
+  [
+    {
+      "adjacentBombs": 0,
+      "isBomb": true,
+      "isOpen": false,
+    },
+    {
+      "adjacentBombs": 1,
+      "isBomb": false,
+      "isOpen": true,
+    },
+    {
+      "adjacentBombs": 0,
+      "isBomb": false,
+      "isOpen": true,
+    },
+  ],
+  [
+    {
+      "adjacentBombs": 1,
+      "isBomb": false,
+      "isOpen": true,
+    },
+    {
+      "adjacentBombs": 1,
+      "isBomb": false,
+      "isOpen": true,
+    },
+    {
+      "adjacentBombs": 0,
+      "isBomb": false,
+      "isOpen": true,
+    },
+  ],
+  [
+    {
+      "adjacentBombs": 0,
+      "isBomb": false,
+      "isOpen": true,
+    },
+    {
+      "adjacentBombs": 0,
+      "isBomb": false,
+      "isOpen": true,
+    },
+    {
+      "adjacentBombs": 0,
+      "isBomb": false,
+      "isOpen": true,
+    },
+  ],
+]
+`;
+
+exports[`getSquaresToOpen returns one square when clicking one 1`] = `
+[
+  [
+    {
+      "adjacentBombs": 0,
+      "isBomb": true,
+      "isOpen": false,
+    },
+    {
+      "adjacentBombs": 1,
+      "isBomb": false,
+      "isOpen": true,
+    },
+    {
+      "adjacentBombs": 0,
+      "isBomb": false,
+      "isOpen": false,
+    },
+  ],
+  [
+    {
+      "adjacentBombs": 1,
+      "isBomb": false,
+      "isOpen": false,
+    },
+    {
+      "adjacentBombs": 1,
+      "isBomb": false,
+      "isOpen": false,
+    },
+    {
+      "adjacentBombs": 0,
+      "isBomb": false,
+      "isOpen": false,
+    },
+  ],
+  [
+    {
+      "adjacentBombs": 0,
+      "isBomb": false,
+      "isOpen": false,
+    },
+    {
+      "adjacentBombs": 0,
+      "isBomb": false,
+      "isOpen": false,
+    },
+    {
+      "adjacentBombs": 0,
+      "isBomb": false,
+      "isOpen": false,
+    },
+  ],
+]
+`;

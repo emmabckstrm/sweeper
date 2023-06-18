@@ -41,3 +41,11 @@ export const OpenWithBomb: Story = {
     isBomb: true,
   },
 };
+
+export const Flagged: Story = {
+  args: {
+    isFlagged: true,
+    isBomb: true,
+    isOpen: false,
+  },
+};

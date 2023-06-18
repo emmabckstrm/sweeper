@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Input } from "./Input";
 import { Button } from "./Button";
 import type { SquareT } from "./Square";
-import type { GameBoard } from "../src/setup";
+import type { GameBoard } from "../src/types";
 
 const DEFAULTS: Record<
   "beginner" | "intermediate" | "expert",
@@ -31,7 +31,7 @@ const DEFAULTS: Record<
 };
 
 interface RenderSquare
-  extends Pick<SquareT, "isBomb" | "isOpen" | "adjacentBombs"> {
+  extends Pick<SquareT, "isBomb" | "isOpen" | "adjacentBombs" | "isFlagged"> {
   row: number;
   col: number;
 }
@@ -122,6 +122,7 @@ export const Board = ({
                     return renderSquare({
                       isBomb: col.isBomb,
                       isOpen: col.isOpen,
+                      isFlagged: col.isFlagged,
                       adjacentBombs: col.adjacentBombs,
                       row: r,
                       col: c,
