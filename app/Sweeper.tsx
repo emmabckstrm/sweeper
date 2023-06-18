@@ -8,7 +8,7 @@ import {
   generateBombPositions,
   getAdjacentSquares,
 } from "./src/setup";
-import type { SquareStatus, GameBoard, Position } from "./src/types";
+import type { SquareStatus, GameBoard, Position, GameState } from "./src/types";
 import {
   updateBoardWithSquare,
   getBoardWithOpenedSquares,
@@ -17,10 +17,13 @@ import {
 } from "./src/gamePlay";
 
 export const Sweeper = () => {
-  const [gameIsRunning, setGameIsRunning] = useState(false);
+  const [gameState, setGameState] = useState<GameState>("idle");
   const [gameBoard, setGameBoard] = useState<GameBoard>([]);
   const [numberOfOpenedSquares, setNumberOfOpenedSquares] = useState<number>(0);
+  const [numberOfSquaresToOpen, setNumberOfSquaresToOpen] = useState<number>(0);
   const [totalBombs, setTotalBombs] = useState<number>(0);
+
+  const isGameRunning = gameState === "running";
 
   const updateSquare = (
     row: number,
@@ -35,7 +38,25 @@ export const Sweeper = () => {
   const handleOnGameInit = (rows: number, cols: number, bombs: number) => {
     setTotalBombs(bombs);
     setGameBoard(initGameBoard(rows, cols));
-    setGameIsRunning(true);
+    setNumberOfSquaresToOpen(rows * cols - bombs);
+    setGameState("running");
+  };
+
+  const handleOnGameReset = () => {
+    setGameBoard([]);
+    setNumberOfOpenedSquares(0);
+    setTotalBombs(0);
+    setGameState("idle");
+  };
+
+  const handleOnGameWin = (_board: GameBoard) => {
+    setGameState("win");
+    // setGameBoard(setAllSquaresToOpen(board));
+  };
+
+  const handleOnGameLoss = () => {
+    setGameState("loss");
+    setGameBoard(setAllSquaresToOpen(gameBoard));
   };
 
   const handleOnGameStart = (
@@ -85,13 +106,18 @@ export const Sweeper = () => {
 
     setNumberOfOpenedSquares(getNumberOfOpenSquares(board));
     setGameBoard(board);
-    setGameIsRunning(true);
+    setGameState("running");
   };
 
   const openSquare = (row: number, col: number) => {
     const newBoard = getBoardWithOpenedSquares(row, col, gameBoard);
-    setNumberOfOpenedSquares(getNumberOfOpenSquares(newBoard));
-    setGameBoard(newBoard);
+    const openedSquares = getNumberOfOpenSquares(newBoard);
+    if (openedSquares === numberOfSquaresToOpen) {
+      handleOnGameWin(newBoard);
+    } else {
+      setNumberOfOpenedSquares(openedSquares);
+      setGameBoard(newBoard);
+    }
   };
 
   const flagSquare = (row: number, col: number) => {
@@ -99,14 +125,15 @@ export const Sweeper = () => {
   };
 
   const handleOnSquareClick = (row: number, col: number) => {
-    console.log("left click", row, col);
+    if (!isGameRunning) return;
+
     if (numberOfOpenedSquares === 0) {
       const adjacents = getAdjacentSquares(row, col, gameBoard);
       handleOnGameStart(row, col, [...adjacents, [row, col]]);
     } else if (!gameBoard[row][col].isOpen && !gameBoard[row][col].isFlagged) {
       if (gameBoard[row][col].isBomb) {
         console.log("YOU LOOSE!");
-        setGameBoard(setAllSquaresToOpen(gameBoard));
+        handleOnGameLoss();
       } else {
         openSquare(row, col);
       }
@@ -114,15 +141,17 @@ export const Sweeper = () => {
   };
 
   const handleOnSquareSecondClick = (row: number, col: number) => {
-    console.log("right click", row, col);
-    flagSquare(row, col);
+    if (isGameRunning) {
+      flagSquare(row, col);
+    }
   };
 
   return (
     <div className="flex justify-center p-24">
       <Board
         gameBoard={gameBoard}
-        isGameRunning={gameIsRunning}
+        gameState={gameState}
+        handleOnGameReset={handleOnGameReset}
         handleOnGameStart={handleOnGameInit}
         renderSquare={({ row, col, ...props }) => (
           <Square

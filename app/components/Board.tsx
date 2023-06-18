@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Input } from "./Input";
 import { Button } from "./Button";
 import type { SquareT } from "./Square";
-import type { GameBoard } from "../src/types";
+import type { GameBoard, GameState } from "../src/types";
 
 const DEFAULTS: Record<
   "beginner" | "intermediate" | "expert",
@@ -39,14 +39,16 @@ interface RenderSquare
 export const Board = ({
   children,
   gameBoard,
-  isGameRunning,
+  gameState,
   renderSquare,
   handleOnGameStart,
+  handleOnGameReset,
 }: {
   children?: ReactNode;
   gameBoard: GameBoard;
-  isGameRunning: boolean;
+  gameState: GameState;
   renderSquare: (arg0: RenderSquare) => ReactNode;
+  handleOnGameReset: () => void;
   handleOnGameStart: (rows: number, cols: number, bombs: number) => void;
 }) => {
   const [numberOfRows, setNumberOfRows] = useState(10);
@@ -62,7 +64,8 @@ export const Board = ({
                 `}
     >
       <div className="font-bold text-3xl">Sweeper</div>
-      {!isGameRunning && (
+
+      {gameState === "idle" && (
         <>
           <div className="flex flex-col items-center flex-nowrap space-y-2">
             {Object.entries(DEFAULTS).map(([key, item]) => {
@@ -91,7 +94,7 @@ export const Board = ({
               return (
                 <div className="flex flex-col">
                   <Input
-                    disabled={isGameRunning}
+                    disabled={gameState !== "idle"}
                     value={value}
                     onChange={(event: ChangeEvent<HTMLInputElement>) =>
                       setter(Number(event.target.value))
@@ -113,7 +116,7 @@ export const Board = ({
         </>
       )}
       <div>
-        {isGameRunning && (
+        {gameState !== "idle" && (
           <div className="shadow-sm inline-block bg-purple-600 p-1 rounded-md">
             {gameBoard.map((row, r) => {
               return (
@@ -134,6 +137,12 @@ export const Board = ({
           </div>
         )}
       </div>
+
+      {gameState === "win" && <div>You won!</div>}
+      {gameState === "loss" && <div>You lost!</div>}
+      {(gameState === "loss" || gameState === "win") && (
+        <Button onClick={handleOnGameReset}>Play again</Button>
+      )}
     </div>
   );
 };

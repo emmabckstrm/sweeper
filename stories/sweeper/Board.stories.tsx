@@ -16,7 +16,7 @@ const gameBoard = initGameBoard(5, 5);
 
 export const Idle: Story = {
   args: {
-    isGameRunning: false,
+    gameState: "idle",
     gameBoard,
     renderSquare: ({ row, col, ...props }) => (
       <Square
@@ -31,7 +31,37 @@ export const Idle: Story = {
 
 export const GameIsRunning: Story = {
   args: {
-    isGameRunning: true,
+    gameState: "running",
+    gameBoard,
+    renderSquare: ({ row, col, ...props }) => (
+      <Square
+        onClick={() => {}}
+        onSecondClick={() => {}}
+        key={`${row}-${col}`}
+        {...props}
+      />
+    ),
+  },
+};
+
+export const GameIsLost: Story = {
+  args: {
+    gameState: "loss",
+    gameBoard,
+    renderSquare: ({ row, col, ...props }) => (
+      <Square
+        onClick={() => {}}
+        onSecondClick={() => {}}
+        key={`${row}-${col}`}
+        {...props}
+      />
+    ),
+  },
+};
+
+export const GameIsWon: Story = {
+  args: {
+    gameState: "win",
     gameBoard,
     renderSquare: ({ row, col, ...props }) => (
       <Square

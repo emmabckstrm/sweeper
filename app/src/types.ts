@@ -7,3 +7,4 @@ export interface SquareStatus {
 
 export type GameBoard = SquareStatus[][];
 export type Position = [number, number];
+export type GameState = "idle" | "running" | "win" | "loss";
