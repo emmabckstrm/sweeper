@@ -4,9 +4,13 @@ import {
   generateBombPositions,
   getAdjacentSquares,
 } from "./setup";
-import { getBoardWithOpenedSquares } from "./gamePlay";
+import {
+  getBoardWithOpenedSquares,
+  getNumberOfOpenSquares,
+  setAllSquaresToOpen,
+} from "./gamePlay";
 
-describe(getBoardWithOpenedSquares, () => {
+const mockGameBoard = () => {
   const gameBoard = initGameBoard(3, 3);
   gameBoard[0][0] = { ...gameBoard[0][0], isBomb: true };
   const adjacents = getAdjacentSquares(0, 0, gameBoard);
@@ -16,6 +20,11 @@ describe(getBoardWithOpenedSquares, () => {
       adjacentBombs: 1,
     };
   });
+  return gameBoard;
+};
+
+describe(getBoardWithOpenedSquares, () => {
+  const gameBoard = mockGameBoard();
 
   it("only opens one if it has adjacentBombs number", () => {
     expect(getBoardWithOpenedSquares(0, 1, gameBoard)).toMatchSnapshot();
@@ -28,5 +37,29 @@ describe(getBoardWithOpenedSquares, () => {
   it("doesn't open flagged squares", () => {
     gameBoard[0][2].isFlagged = true;
     expect(getBoardWithOpenedSquares(2, 2, gameBoard)).toMatchSnapshot();
+  });
+});
+
+describe(setAllSquaresToOpen, () => {
+  const gameBoard = mockGameBoard();
+
+  it("opens all squares and sets flagged to false", () => {
+    gameBoard[0][2].isFlagged = true;
+    expect(setAllSquaresToOpen(gameBoard)).toMatchSnapshot();
+  });
+});
+
+describe(getNumberOfOpenSquares, () => {
+  it("returns 0 when no squares are open", () => {
+    const gameBoard = mockGameBoard();
+    expect(getNumberOfOpenSquares(gameBoard)).toEqual(0);
+  });
+
+  it("returns 3 when 3 squares are open", () => {
+    const gameBoard = mockGameBoard();
+    gameBoard[0][1] = { ...gameBoard[0][1], isOpen: true };
+    gameBoard[2][0] = { ...gameBoard[2][0], isOpen: true };
+    gameBoard[2][2] = { ...gameBoard[2][2], isOpen: true };
+    expect(getNumberOfOpenSquares(gameBoard)).toEqual(3);
   });
 });

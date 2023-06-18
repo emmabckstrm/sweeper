@@ -1,5 +1,5 @@
 import { getAdjacentSquares } from "./setup";
-import type { GameBoard, Position, SquareStatus } from "./types";
+import type { GameBoard, SquareStatus } from "./types";
 
 export const updateBoardWithSquare = (
   board: GameBoard,
@@ -37,12 +37,6 @@ export const getBoardWithOpenedSquares = (
   }
   return gameBoard;
 };
-
-export const getSurroundingSquaresToOpen = (
-  row: number,
-  col: number,
-  gameBoard: GameBoard
-) => {};
 
 export const getNumberOfOpenSquares = (board: GameBoard) => {
   let numberOfOpenedSquares = 0;

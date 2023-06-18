@@ -16,10 +16,6 @@ import {
   setAllSquaresToOpen,
 } from "./src/gamePlay";
 
-const WIDTH = 10;
-const HEIGHT = 10;
-const NUMBER_OF_BOMBS = 2;
-
 export const Sweeper = () => {
   const [gameIsRunning, setGameIsRunning] = useState(false);
   const [gameBoard, setGameBoard] = useState<GameBoard>([]);
@@ -54,7 +50,6 @@ export const Sweeper = () => {
       totalBombs,
       reservedPositions
     );
-    console.log("reservedPositions", reservedPositions);
     console.log("bombpos", bombPositions);
     bombPositions.forEach((position) => {
       board = updateBoardWithSquare(gameBoard, position[0], position[1], {
