@@ -57,7 +57,7 @@ export const Board = ({
 
   return (
     <div
-      className={`w-auto inline-flex min-w-[150px] min-h-[250px]
+      className={`w-full sm:w-auto inline-flex min-w-[150px] min-h-[250px]
                   items-center justify-center
                   flex-col bg-purple-100 rounded-md p-4 shadow-md
                   space-y-5
@@ -84,7 +84,7 @@ export const Board = ({
               );
             })}
           </div>
-          <div className="flex flex-row flex-nowrap space-x-2 items-start">
+          <div className="flex flex-col space-y-2 items-end sm:space-y-0 sm:flex-row sm:flex-nowrap sm:space-x-2 sm:items-start">
             {[
               { key: "rows", value: numberOfRows, setter: setNumberOfRows },
               { key: "cols", value: numberOfCols, setter: setNumberOfCols },
@@ -92,7 +92,8 @@ export const Board = ({
             ].map((item) => {
               const { key, value, setter } = item;
               return (
-                <div className="flex flex-col">
+                <div className="flex flex-row items-center space-x-2 sm:space-x-0 sm:flex-col-reverse">
+                  <span className="text-center text-sm">{key}</span>
                   <Input
                     disabled={gameState !== "idle"}
                     value={value}
@@ -100,40 +101,43 @@ export const Board = ({
                       setter(Number(event.target.value))
                     }
                   />
-                  <span className="text-center text-sm">{key}</span>
                 </div>
               );
             })}
-            <Button
-              className="h-10"
-              onClick={() =>
-                handleOnGameStart(numberOfRows, numberOfCols, numberOfBombs)
-              }
-            >
-              Custom
-            </Button>
+            <div className="w-full text-center">
+              <Button
+                className="h-10"
+                onClick={() =>
+                  handleOnGameStart(numberOfRows, numberOfCols, numberOfBombs)
+                }
+              >
+                Custom
+              </Button>
+            </div>
           </div>
         </>
       )}
-      <div>
+      <div className="w-full">
         {gameState !== "idle" && (
-          <div className="shadow-sm inline-block bg-purple-600 p-1 rounded-md">
-            {gameBoard.map((row, r) => {
-              return (
-                <div key={`row-${r}`} className="flex flex-row">
-                  {row.map((col, c) => {
-                    return renderSquare({
-                      isBomb: col.isBomb,
-                      isOpen: col.isOpen,
-                      isFlagged: col.isFlagged,
-                      adjacentBombs: col.adjacentBombs,
-                      row: r,
-                      col: c,
-                    });
-                  })}
-                </div>
-              );
-            })}
+          <div className="overflow-auto w-full p-2">
+            <div className="shadow-sm inline-block bg-purple-600 p-1 rounded-md">
+              {gameBoard.map((row, r) => {
+                return (
+                  <div key={`row-${r}`} className="flex flex-row">
+                    {row.map((col, c) => {
+                      return renderSquare({
+                        isBomb: col.isBomb,
+                        isOpen: col.isOpen,
+                        isFlagged: col.isFlagged,
+                        adjacentBombs: col.adjacentBombs,
+                        row: r,
+                        col: c,
+                      });
+                    })}
+                  </div>
+                );
+              })}
+            </div>
           </div>
         )}
       </div>

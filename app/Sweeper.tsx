@@ -147,7 +147,7 @@ export const Sweeper = () => {
   };
 
   return (
-    <div className="flex justify-center p-24">
+    <div className="flex justify-center p-4 md:p-24">
       <Board
         gameBoard={gameBoard}
         gameState={gameState}
