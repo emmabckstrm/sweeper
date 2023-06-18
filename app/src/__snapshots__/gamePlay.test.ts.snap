@@ -1,38 +1,44 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`getSquaresToOpen returns all adjacent unopened ones 1`] = `
+exports[`getBoardWithOpenedSquares doesn't open flagged squares 1`] = `
 [
   [
     {
       "adjacentBombs": 0,
       "isBomb": true,
+      "isFlagged": false,
       "isOpen": false,
     },
     {
       "adjacentBombs": 1,
       "isBomb": false,
+      "isFlagged": false,
       "isOpen": true,
     },
     {
       "adjacentBombs": 0,
       "isBomb": false,
-      "isOpen": true,
+      "isFlagged": true,
+      "isOpen": false,
     },
   ],
   [
     {
       "adjacentBombs": 1,
       "isBomb": false,
+      "isFlagged": false,
       "isOpen": true,
     },
     {
       "adjacentBombs": 1,
       "isBomb": false,
+      "isFlagged": false,
       "isOpen": true,
     },
     {
       "adjacentBombs": 0,
       "isBomb": false,
+      "isFlagged": false,
       "isOpen": true,
     },
   ],
@@ -40,38 +46,44 @@ exports[`getSquaresToOpen returns all adjacent unopened ones 1`] = `
     {
       "adjacentBombs": 0,
       "isBomb": false,
+      "isFlagged": false,
       "isOpen": true,
     },
     {
       "adjacentBombs": 0,
       "isBomb": false,
+      "isFlagged": false,
       "isOpen": true,
     },
     {
       "adjacentBombs": 0,
       "isBomb": false,
+      "isFlagged": false,
       "isOpen": true,
     },
   ],
 ]
 `;
 
-exports[`getSquaresToOpen returns one square when clicking one 1`] = `
+exports[`getBoardWithOpenedSquares only opens one if it has adjacentBombs number 1`] = `
 [
   [
     {
       "adjacentBombs": 0,
       "isBomb": true,
+      "isFlagged": false,
       "isOpen": false,
     },
     {
       "adjacentBombs": 1,
       "isBomb": false,
+      "isFlagged": false,
       "isOpen": true,
     },
     {
       "adjacentBombs": 0,
       "isBomb": false,
+      "isFlagged": false,
       "isOpen": false,
     },
   ],
@@ -79,16 +91,19 @@ exports[`getSquaresToOpen returns one square when clicking one 1`] = `
     {
       "adjacentBombs": 1,
       "isBomb": false,
+      "isFlagged": false,
       "isOpen": false,
     },
     {
       "adjacentBombs": 1,
       "isBomb": false,
+      "isFlagged": false,
       "isOpen": false,
     },
     {
       "adjacentBombs": 0,
       "isBomb": false,
+      "isFlagged": false,
       "isOpen": false,
     },
   ],
@@ -96,17 +111,85 @@ exports[`getSquaresToOpen returns one square when clicking one 1`] = `
     {
       "adjacentBombs": 0,
       "isBomb": false,
+      "isFlagged": false,
       "isOpen": false,
     },
     {
       "adjacentBombs": 0,
       "isBomb": false,
+      "isFlagged": false,
       "isOpen": false,
     },
     {
       "adjacentBombs": 0,
       "isBomb": false,
+      "isFlagged": false,
       "isOpen": false,
+    },
+  ],
+]
+`;
+
+exports[`getBoardWithOpenedSquares opens all adjacent empty and adjacent with adjacentBombs number 1`] = `
+[
+  [
+    {
+      "adjacentBombs": 0,
+      "isBomb": true,
+      "isFlagged": false,
+      "isOpen": false,
+    },
+    {
+      "adjacentBombs": 1,
+      "isBomb": false,
+      "isFlagged": false,
+      "isOpen": true,
+    },
+    {
+      "adjacentBombs": 0,
+      "isBomb": false,
+      "isFlagged": false,
+      "isOpen": true,
+    },
+  ],
+  [
+    {
+      "adjacentBombs": 1,
+      "isBomb": false,
+      "isFlagged": false,
+      "isOpen": true,
+    },
+    {
+      "adjacentBombs": 1,
+      "isBomb": false,
+      "isFlagged": false,
+      "isOpen": true,
+    },
+    {
+      "adjacentBombs": 0,
+      "isBomb": false,
+      "isFlagged": false,
+      "isOpen": true,
+    },
+  ],
+  [
+    {
+      "adjacentBombs": 0,
+      "isBomb": false,
+      "isFlagged": false,
+      "isOpen": true,
+    },
+    {
+      "adjacentBombs": 0,
+      "isBomb": false,
+      "isFlagged": false,
+      "isOpen": true,
+    },
+    {
+      "adjacentBombs": 0,
+      "isBomb": false,
+      "isFlagged": false,
+      "isOpen": true,
     },
   ],
 ]

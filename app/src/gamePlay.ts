@@ -20,7 +20,7 @@ export const getBoardWithOpenedSquares = (
   let gameBoard = _gameBoard.slice();
   const square = gameBoard[row][col];
 
-  if (!square.isOpen && !square.isBomb) {
+  if (!square.isOpen && !square.isBomb && !square.isFlagged) {
     if (square.adjacentBombs > 0) {
       gameBoard = updateBoardWithSquare(gameBoard, row, col, { isOpen: true });
     } else {

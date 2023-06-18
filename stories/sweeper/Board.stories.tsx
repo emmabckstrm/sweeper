@@ -18,11 +18,11 @@ export const Idle: Story = {
   args: {
     isGameRunning: false,
     gameBoard,
-    renderSquare: ({ key, ...props }) => (
+    renderSquare: ({ row, col, ...props }) => (
       <Square
         onClick={() => {}}
         onSecondClick={() => {}}
-        key={key}
+        key={`${row}-${col}`}
         {...props}
       />
     ),
@@ -33,11 +33,11 @@ export const GameIsRunning: Story = {
   args: {
     isGameRunning: true,
     gameBoard,
-    renderSquare: ({ key, ...props }) => (
+    renderSquare: ({ row, col, ...props }) => (
       <Square
         onClick={() => {}}
         onSecondClick={() => {}}
-        key={key}
+        key={`${row}-${col}`}
         {...props}
       />
     ),

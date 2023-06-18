@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 
 const BASE_CLASSES = "font-mono p-2 border rounded w-10 h-10 block font-bold";
-const UNOPENED_CLASSES = "bg-purple-400 border-purple-700";
+const UNOPENED_CLASSES = "bg-purple-400 border-purple-700 text-black";
 const OPENED_CLASSES = "bg-gray-200 border-gray-300";
 const BOMB_CLASSES = "bg-amber-500 border-amber-700 text-black";
 
