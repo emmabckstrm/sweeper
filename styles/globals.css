@@ -1,0 +1,12 @@
+@tailwind base;
+
+html,
+body,
+#__next {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+@tailwind components;
+@tailwind utilities;
