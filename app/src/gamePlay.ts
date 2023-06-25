@@ -1,5 +1,5 @@
 import { getAdjacentSquares } from "./setup";
-import type { GameBoard, SquareStatus } from "./types";
+import type { GameBoard, SquareState, SquareStatus } from "./types";
 
 export const updateBoardWithSquare = (
   board: GameBoard,
@@ -20,11 +20,16 @@ export const getBoardWithOpenedSquares = (
   let gameBoard = _gameBoard.slice();
   const square = gameBoard[row][col];
 
-  if (!square.isOpen && !square.isBomb && !square.isFlagged) {
+  console.log("square", square);
+  if (!isOpen(square) && !square.isBomb && !isFlagged(square)) {
     if (square.adjacentBombs > 0) {
-      gameBoard = updateBoardWithSquare(gameBoard, row, col, { isOpen: true });
+      gameBoard = updateBoardWithSquare(gameBoard, row, col, {
+        status: "open",
+      });
     } else {
-      gameBoard = updateBoardWithSquare(gameBoard, row, col, { isOpen: true });
+      gameBoard = updateBoardWithSquare(gameBoard, row, col, {
+        status: "open",
+      });
       const adjacents = getAdjacentSquares(row, col, gameBoard);
       for (let i = 0; i < adjacents.length; i++) {
         gameBoard = getBoardWithOpenedSquares(
@@ -42,7 +47,7 @@ export const getNumberOfOpenSquares = (board: GameBoard) => {
   let numberOfOpenedSquares = 0;
   board.forEach((row) => {
     row.forEach((square) => {
-      if (square.isOpen) {
+      if (isOpen(square)) {
         numberOfOpenedSquares += 1;
       }
     });
@@ -54,12 +59,18 @@ export const setAllSquaresToOpen = (_board: GameBoard) => {
   const board = _board.slice();
   board.forEach((row, r) => {
     row.forEach((square, c) => {
-      if (!square.isOpen) {
-        square.isOpen = true;
-        square.isFlagged = false;
+      if (!isOpen(square)) {
+        square.status = "open";
       }
     });
   });
 
   return board;
+};
+
+export const isOpen = (square: SquareStatus) => {
+  return square.status === "open";
+};
+export const isFlagged = (square: SquareStatus) => {
+  return square.status === "flag";
 };

@@ -2,11 +2,10 @@ import type { SquareStatus, GameBoard, Position } from "./types";
 
 export const initGameBoard = (rows: number, cols: number): GameBoard => {
   const board = [];
-  const squareStatus = {
+  const squareStatus: SquareStatus = {
     isBomb: false,
-    isOpen: false,
     adjacentBombs: 0,
-    isFlagged: false,
+    status: "unopened",
   };
   for (let row = 0; row < rows; row++) {
     const newRow: SquareStatus[] = [];

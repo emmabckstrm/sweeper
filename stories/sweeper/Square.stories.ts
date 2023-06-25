@@ -16,36 +16,35 @@ type Story = StoryObj<typeof Square>;
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Unopened: Story = {
   args: {
-    isOpen: false,
+    status: "unopened",
   },
 };
 
 export const OpenEmpty: Story = {
   args: {
-    isOpen: true,
     isBomb: false,
+    status: "open",
   },
 };
 
 export const OpenAdjacentBombs: Story = {
   args: {
-    isOpen: true,
     isBomb: false,
+    status: "open",
     adjacentBombs: 3,
   },
 };
 
 export const OpenWithBomb: Story = {
   args: {
-    isOpen: true,
     isBomb: true,
+    status: "open",
   },
 };
 
 export const Flagged: Story = {
   args: {
-    isFlagged: true,
     isBomb: true,
-    isOpen: false,
+    status: "flag",
   },
 };
