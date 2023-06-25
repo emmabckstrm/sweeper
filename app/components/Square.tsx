@@ -1,15 +1,12 @@
 import type { ReactNode } from "react";
+import type { SquareStatus } from "../src/types";
 
 const BASE_CLASSES = "font-mono p-2 border w-10 h-10 block font-bold";
 const UNOPENED_CLASSES = "bg-purple-400 border-purple-700 text-black";
 const OPENED_CLASSES = "bg-gray-200 border-gray-300";
 const BOMB_CLASSES = "bg-amber-500 border-amber-700 text-black";
 
-export interface SquareT {
-  adjacentBombs: number;
-  isBomb: boolean;
-  isOpen: boolean;
-  isFlagged: boolean;
+export interface SquareT extends SquareStatus {
   onClick: () => void;
   onSecondClick: () => void;
 }
@@ -17,11 +14,13 @@ export interface SquareT {
 export const Square = ({
   adjacentBombs,
   isBomb,
-  isOpen,
-  isFlagged,
+  status,
   onClick,
   onSecondClick,
 }: SquareT) => {
+  const isOpen = status === "open";
+  const isFlagged = status === "flag";
+
   const handleSecondClick = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {

@@ -33,8 +33,16 @@ describe("initGameBoard", () => {
   });
 
   it("sets all to not open", () => {
-    const numberOfOpens = verifyFalsyValueForKey("isOpen", gameBoard);
-    expect(numberOfOpens).toEqual(0);
+    let numberOfOpens = 0;
+    gameBoard.map((row) => {
+      row.map((square) => {
+        if (square.status === "unopened") {
+          numberOfOpens += 1;
+        }
+      });
+    });
+
+    expect(numberOfOpens).toEqual(10);
   });
   it("sets all to not bombs", () => {
     const numberOfBombs = verifyFalsyValueForKey("isBomb", gameBoard);

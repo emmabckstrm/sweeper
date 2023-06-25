@@ -1,8 +1,8 @@
+export type SquareState = "unopened" | "open" | "flag";
 export interface SquareStatus {
   isBomb: boolean;
-  isOpen: boolean;
   adjacentBombs: number;
-  isFlagged: boolean;
+  status: SquareState;
 }
 
 export type GameBoard = SquareStatus[][];

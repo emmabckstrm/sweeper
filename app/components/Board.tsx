@@ -31,7 +31,7 @@ const DEFAULTS: Record<
 };
 
 interface RenderSquare
-  extends Pick<SquareT, "isBomb" | "isOpen" | "adjacentBombs" | "isFlagged"> {
+  extends Pick<SquareT, "isBomb" | "adjacentBombs" | "status"> {
   row: number;
   col: number;
 }
@@ -127,8 +127,7 @@ export const Board = ({
                     {row.map((col, c) => {
                       return renderSquare({
                         isBomb: col.isBomb,
-                        isOpen: col.isOpen,
-                        isFlagged: col.isFlagged,
+                        status: col.status,
                         adjacentBombs: col.adjacentBombs,
                         row: r,
                         col: c,

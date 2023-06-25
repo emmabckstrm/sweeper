@@ -8,7 +8,13 @@ import {
   generateBombPositions,
   getAdjacentSquares,
 } from "./src/setup";
-import type { SquareStatus, GameBoard, Position, GameState } from "./src/types";
+import type {
+  SquareStatus,
+  SquareState,
+  GameBoard,
+  Position,
+  GameState,
+} from "./src/types";
 import {
   updateBoardWithSquare,
   getBoardWithOpenedSquares,
@@ -121,17 +127,27 @@ export const Sweeper = () => {
   };
 
   const flagSquare = (row: number, col: number) => {
-    updateSquare(row, col, { isFlagged: !gameBoard[row][col].isFlagged });
+    let newStatus: SquareState = "unopened";
+    switch (gameBoard[row][col].status) {
+      case "unopened":
+        newStatus = "flag";
+        break;
+      case "flag":
+        newStatus = "unopened";
+        break;
+    }
+    updateSquare(row, col, { status: newStatus });
   };
 
   const handleOnSquareClick = (row: number, col: number) => {
     if (!isGameRunning) return;
 
+    const square = gameBoard[row][col];
     if (numberOfOpenedSquares === 0) {
       const adjacents = getAdjacentSquares(row, col, gameBoard);
       handleOnGameStart(row, col, [...adjacents, [row, col]]);
-    } else if (!gameBoard[row][col].isOpen && !gameBoard[row][col].isFlagged) {
-      if (gameBoard[row][col].isBomb) {
+    } else if (square.status === "unopened") {
+      if (square.isBomb) {
         console.log("YOU LOOSE!");
         handleOnGameLoss();
       } else {
