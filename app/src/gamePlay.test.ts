@@ -5,6 +5,7 @@ import {
   getAdjacentSquares,
 } from "./setup";
 import {
+  allowSquareInteraction,
   getBoardWithOpenedSquares,
   getNumberOfOpenSquares,
   setAllSquaresToOpen,
@@ -61,5 +62,43 @@ describe(getNumberOfOpenSquares, () => {
     gameBoard[2][0] = { ...gameBoard[2][0], status: "open" };
     gameBoard[2][2] = { ...gameBoard[2][2], status: "open" };
     expect(getNumberOfOpenSquares(gameBoard)).toEqual(3);
+  });
+});
+
+describe(allowSquareInteraction, () => {
+  it("returns false if game state is running", () => {
+    expect(
+      allowSquareInteraction(
+        { status: "unopened", isBomb: false, adjacentBombs: 0 },
+        "running"
+      )
+    ).toEqual(true);
+  });
+
+  it("returns false if game state is idle", () => {
+    expect(
+      allowSquareInteraction(
+        { status: "unopened", isBomb: false, adjacentBombs: 0 },
+        "idle"
+      )
+    ).toEqual(false);
+  });
+
+  it("returns false if game state is running and square is open", () => {
+    expect(
+      allowSquareInteraction(
+        { status: "open", isBomb: false, adjacentBombs: 0 },
+        "running"
+      )
+    ).toEqual(false);
+  });
+
+  it("returns false if game state is idle and square is open", () => {
+    expect(
+      allowSquareInteraction(
+        { status: "open", isBomb: false, adjacentBombs: 0 },
+        "idle"
+      )
+    ).toEqual(false);
   });
 });

@@ -1,5 +1,5 @@
 import { getAdjacentSquares } from "./setup";
-import type { GameBoard, SquareState, SquareStatus } from "./types";
+import type { GameBoard, GameState, SquareState, SquareStatus } from "./types";
 
 export const updateBoardWithSquare = (
   board: GameBoard,
@@ -20,7 +20,6 @@ export const getBoardWithOpenedSquares = (
   let gameBoard = _gameBoard.slice();
   const square = gameBoard[row][col];
 
-  console.log("square", square);
   if (!isOpen(square) && !square.isBomb && !isFlagged(square)) {
     if (square.adjacentBombs > 0) {
       gameBoard = updateBoardWithSquare(gameBoard, row, col, {
@@ -73,4 +72,11 @@ export const isOpen = (square: SquareStatus) => {
 };
 export const isFlagged = (square: SquareStatus) => {
   return square.status === "flag";
+};
+
+export const allowSquareInteraction = (
+  square: SquareStatus,
+  gameState: GameState
+) => {
+  return gameState === "running" && !isOpen(square);
 };
