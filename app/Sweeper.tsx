@@ -20,6 +20,8 @@ import {
   getBoardWithOpenedSquares,
   getNumberOfOpenSquares,
   setAllSquaresToOpen,
+  isOpen,
+  allowSquareInteraction,
 } from "./src/gamePlay";
 
 export const Sweeper = () => {
@@ -28,8 +30,6 @@ export const Sweeper = () => {
   const [numberOfOpenedSquares, setNumberOfOpenedSquares] = useState<number>(0);
   const [numberOfSquaresToOpen, setNumberOfSquaresToOpen] = useState<number>(0);
   const [totalBombs, setTotalBombs] = useState<number>(0);
-
-  const isGameRunning = gameState === "running";
 
   const updateSquare = (
     row: number,
@@ -77,7 +77,6 @@ export const Sweeper = () => {
       totalBombs,
       reservedPositions
     );
-    console.log("bombpos", bombPositions);
     bombPositions.forEach((position) => {
       board = updateBoardWithSquare(gameBoard, position[0], position[1], {
         isBomb: true,
@@ -140,15 +139,14 @@ export const Sweeper = () => {
   };
 
   const handleOnSquareClick = (row: number, col: number) => {
-    if (!isGameRunning) return;
-
     const square = gameBoard[row][col];
+    if (!allowSquareInteraction(square, gameState)) return;
+
     if (numberOfOpenedSquares === 0) {
       const adjacents = getAdjacentSquares(row, col, gameBoard);
       handleOnGameStart(row, col, [...adjacents, [row, col]]);
-    } else if (square.status === "unopened") {
+    } else {
       if (square.isBomb) {
-        console.log("YOU LOOSE!");
         handleOnGameLoss();
       } else {
         openSquare(row, col);
@@ -157,9 +155,10 @@ export const Sweeper = () => {
   };
 
   const handleOnSquareSecondClick = (row: number, col: number) => {
-    if (isGameRunning) {
-      flagSquare(row, col);
-    }
+    const square = gameBoard[row][col];
+    if (!allowSquareInteraction(square, gameState)) return;
+
+    flagSquare(row, col);
   };
 
   return (
