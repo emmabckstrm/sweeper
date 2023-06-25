@@ -37,14 +37,12 @@ interface RenderSquare
 }
 
 export const Board = ({
-  children,
   gameBoard,
   gameState,
   renderSquare,
   handleOnGameStart,
   handleOnGameReset,
 }: {
-  children?: ReactNode;
   gameBoard: GameBoard;
   gameState: GameState;
   renderSquare: (arg0: RenderSquare) => ReactNode;
@@ -70,7 +68,7 @@ export const Board = ({
           <div className="flex flex-col items-center flex-nowrap space-y-2">
             {Object.entries(DEFAULTS).map(([key, item]) => {
               return (
-                <div className="flex flex-col items-center">
+                <div key={key} className="flex flex-col items-center">
                   <Button
                     className="capitalize"
                     onClick={() =>
@@ -92,7 +90,10 @@ export const Board = ({
             ].map((item) => {
               const { key, value, setter } = item;
               return (
-                <div className="flex flex-row items-center space-x-2 sm:space-x-0 sm:flex-col-reverse">
+                <div
+                  key={key}
+                  className="flex flex-row items-center space-x-2 sm:space-x-0 sm:flex-col-reverse"
+                >
                   <span className="text-center text-sm">{key}</span>
                   <Input
                     disabled={gameState !== "idle"}
