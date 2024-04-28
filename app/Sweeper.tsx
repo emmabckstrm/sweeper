@@ -2,7 +2,6 @@
 
 import { useMemo, useState } from "react";
 import { Square } from "./components/Square";
-import { Board } from "./components/Board";
 import {
   initGameBoard,
   generateBombPositions,
@@ -20,12 +19,13 @@ import {
   getBoardWithOpenedSquares,
   getNumberOfOpenSquares,
   setAllSquaresToOpen,
-  isOpen,
   allowSquareInteraction,
 } from "./src/gamePlay";
 import { Grid } from "./components/Grid";
 import { BoardLayout } from "./components/BoardLayout";
 import { HeaderLayout } from "./components/HeaderLayout";
+import { GameSetup } from "./components/GameSetup";
+import { Button } from "./components/Button";
 
 export const Sweeper = () => {
   const [gameState, setGameState] = useState<GameState>("idle");
@@ -186,11 +186,14 @@ export const Sweeper = () => {
           />
         }
       >
-        <Board
-          gameState={gameState}
-          handleOnGameReset={handleOnGameReset}
-          handleOnGameStart={handleOnGameInit}
-        >
+        {gameState === "idle" && (
+          <GameSetup
+            gameState={gameState}
+            handleOnGameStart={handleOnGameInit}
+          />
+        )}
+
+        {gameState !== "idle" && (
           <Grid
             grid={gameBoard}
             renderSquare={({ row, col, ...props }) => (
@@ -202,7 +205,13 @@ export const Sweeper = () => {
               />
             )}
           />
-        </Board>
+        )}
+
+        {gameState === "win" && <div>You won!</div>}
+        {gameState === "loss" && <div>You lost!</div>}
+        {(gameState === "loss" || gameState === "win") && (
+          <Button onClick={handleOnGameReset}>Play again</Button>
+        )}
       </BoardLayout>
     </div>
   );
