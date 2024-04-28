@@ -16,7 +16,7 @@ export const BoardLayout = ({
       <header className="w-full">{Header}</header>
       <main
         className={`w-full inline-flex items-center justify-center
-        flex-col space-y-5 px-4
+        flex-col space-y-5 px-4 pb-4
                 `}
       >
         {children}

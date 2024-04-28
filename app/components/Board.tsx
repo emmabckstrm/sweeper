@@ -3,6 +3,8 @@ import { useState } from "react";
 import { Input } from "./Input";
 import { Button } from "./Button";
 import type { GameState } from "../src/types";
+import { BoardLayout } from "./BoardLayout";
+import { HeaderLayout } from "./HeaderLayout";
 
 const DEFAULTS: Record<
   "beginner" | "intermediate" | "expert",
@@ -44,15 +46,7 @@ export const Board = ({
   const [numberOfBombs, setNumberOfBombs] = useState(10);
 
   return (
-    <div
-      className={`w-full sm:w-auto inline-flex min-w-[150px] min-h-[250px]
-                  items-center justify-center
-                  flex-col bg-purple-100 rounded-md p-4 shadow-md
-                  space-y-5
-                `}
-    >
-      <div className="font-bold text-3xl">Sweeper</div>
-
+    <BoardLayout Header={<HeaderLayout Title={"Sweeper"} />}>
       {gameState === "idle" && (
         <>
           <div className="flex flex-col items-center flex-nowrap space-y-2">
@@ -119,6 +113,6 @@ export const Board = ({
       {(gameState === "loss" || gameState === "win") && (
         <Button onClick={handleOnGameReset}>Play again</Button>
       )}
-    </div>
+    </BoardLayout>
   );
 };
