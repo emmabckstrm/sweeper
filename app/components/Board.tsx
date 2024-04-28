@@ -1,10 +1,8 @@
-import type { ChangeEvent, PropsWithChildren, ReactNode } from "react";
+import type { ChangeEvent, PropsWithChildren } from "react";
 import { useState } from "react";
 import { Input } from "./Input";
 import { Button } from "./Button";
 import type { GameState } from "../src/types";
-import { BoardLayout } from "./BoardLayout";
-import { HeaderLayout } from "./HeaderLayout";
 
 const DEFAULTS: Record<
   "beginner" | "intermediate" | "expert",
@@ -46,7 +44,7 @@ export const Board = ({
   const [numberOfBombs, setNumberOfBombs] = useState(10);
 
   return (
-    <BoardLayout Header={<HeaderLayout Title={"Sweeper"} />}>
+    <>
       {gameState === "idle" && (
         <>
           <div className="flex flex-col items-center flex-nowrap space-y-2">
@@ -113,6 +111,6 @@ export const Board = ({
       {(gameState === "loss" || gameState === "win") && (
         <Button onClick={handleOnGameReset}>Play again</Button>
       )}
-    </BoardLayout>
+    </>
   );
 };

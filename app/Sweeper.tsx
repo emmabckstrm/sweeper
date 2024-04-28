@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Square } from "./components/Square";
 import { Board } from "./components/Board";
 import {
@@ -24,6 +24,8 @@ import {
   allowSquareInteraction,
 } from "./src/gamePlay";
 import { Grid } from "./components/Grid";
+import { BoardLayout } from "./components/BoardLayout";
+import { HeaderLayout } from "./components/HeaderLayout";
 
 export const Sweeper = () => {
   const [gameState, setGameState] = useState<GameState>("idle");
@@ -31,6 +33,18 @@ export const Sweeper = () => {
   const [numberOfOpenedSquares, setNumberOfOpenedSquares] = useState<number>(0);
   const [numberOfSquaresToOpen, setNumberOfSquaresToOpen] = useState<number>(0);
   const [totalBombs, setTotalBombs] = useState<number>(0);
+
+  const numberOfFlagsPlaced = useMemo(() => {
+    let numberOfFlags = 0;
+    gameBoard.forEach((row) => {
+      row.forEach((item) => {
+        if (item.status !== "flag") return;
+
+        numberOfFlags += 1;
+      });
+    });
+    return numberOfFlags;
+  }, [gameBoard]);
 
   const updateSquare = (
     row: number,
@@ -164,23 +178,32 @@ export const Sweeper = () => {
 
   return (
     <div className="flex justify-center p-4 md:p-24">
-      <Board
-        gameState={gameState}
-        handleOnGameReset={handleOnGameReset}
-        handleOnGameStart={handleOnGameInit}
+      <BoardLayout
+        Header={
+          <HeaderLayout
+            Title={"Sweeper"}
+            CenterElement={`Bombs left: ${totalBombs - numberOfFlagsPlaced}`}
+          />
+        }
       >
-        <Grid
-          grid={gameBoard}
-          renderSquare={({ row, col, ...props }) => (
-            <Square
-              key={`row-${row}-col-${col}`}
-              onClick={() => handleOnSquareClick(row, col)}
-              onSecondClick={() => handleOnSquareSecondClick(row, col)}
-              {...props}
-            />
-          )}
-        />
-      </Board>
+        <Board
+          gameState={gameState}
+          handleOnGameReset={handleOnGameReset}
+          handleOnGameStart={handleOnGameInit}
+        >
+          <Grid
+            grid={gameBoard}
+            renderSquare={({ row, col, ...props }) => (
+              <Square
+                key={`row-${row}-col-${col}`}
+                onClick={() => handleOnSquareClick(row, col)}
+                onSecondClick={() => handleOnSquareSecondClick(row, col)}
+                {...props}
+              />
+            )}
+          />
+        </Board>
+      </BoardLayout>
     </div>
   );
 };
