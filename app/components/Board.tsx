@@ -1,9 +1,8 @@
-import type { ChangeEvent, ReactNode } from "react";
+import type { ChangeEvent, PropsWithChildren, ReactNode } from "react";
 import { useState } from "react";
 import { Input } from "./Input";
 import { Button } from "./Button";
-import type { SquareT } from "./Square";
-import type { GameBoard, GameState } from "../src/types";
+import type { GameState } from "../src/types";
 
 const DEFAULTS: Record<
   "beginner" | "intermediate" | "expert",
@@ -30,25 +29,16 @@ const DEFAULTS: Record<
   },
 };
 
-interface RenderSquare
-  extends Pick<SquareT, "isBomb" | "adjacentBombs" | "status"> {
-  row: number;
-  col: number;
-}
-
 export const Board = ({
-  gameBoard,
+  children,
   gameState,
-  renderSquare,
   handleOnGameStart,
   handleOnGameReset,
-}: {
-  gameBoard: GameBoard;
+}: PropsWithChildren<{
   gameState: GameState;
-  renderSquare: (arg0: RenderSquare) => ReactNode;
   handleOnGameReset: () => void;
   handleOnGameStart: (rows: number, cols: number, bombs: number) => void;
-}) => {
+}>) => {
   const [numberOfRows, setNumberOfRows] = useState(10);
   const [numberOfCols, setNumberOfCols] = useState(10);
   const [numberOfBombs, setNumberOfBombs] = useState(10);
@@ -120,25 +110,7 @@ export const Board = ({
       )}
       <div className="w-full">
         {gameState !== "idle" && (
-          <div className="overflow-auto w-full p-2">
-            <div className="shadow-sm inline-block bg-purple-600 p-1 rounded-md">
-              {gameBoard.map((row, r) => {
-                return (
-                  <div key={`row-${r}`} className="flex flex-row">
-                    {row.map((col, c) => {
-                      return renderSquare({
-                        isBomb: col.isBomb,
-                        status: col.status,
-                        adjacentBombs: col.adjacentBombs,
-                        row: r,
-                        col: c,
-                      });
-                    })}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+          <div className="overflow-auto w-full p-2">{children}</div>
         )}
       </div>
 

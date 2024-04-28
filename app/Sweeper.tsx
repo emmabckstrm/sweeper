@@ -23,6 +23,7 @@ import {
   isOpen,
   allowSquareInteraction,
 } from "./src/gamePlay";
+import { Grid } from "./components/Grid";
 
 export const Sweeper = () => {
   const [gameState, setGameState] = useState<GameState>("idle");
@@ -164,19 +165,22 @@ export const Sweeper = () => {
   return (
     <div className="flex justify-center p-4 md:p-24">
       <Board
-        gameBoard={gameBoard}
         gameState={gameState}
         handleOnGameReset={handleOnGameReset}
         handleOnGameStart={handleOnGameInit}
-        renderSquare={({ row, col, ...props }) => (
-          <Square
-            key={`row-${row}-col-${col}`}
-            onClick={() => handleOnSquareClick(row, col)}
-            onSecondClick={() => handleOnSquareSecondClick(row, col)}
-            {...props}
-          />
-        )}
-      ></Board>
+      >
+        <Grid
+          grid={gameBoard}
+          renderSquare={({ row, col, ...props }) => (
+            <Square
+              key={`row-${row}-col-${col}`}
+              onClick={() => handleOnSquareClick(row, col)}
+              onSecondClick={() => handleOnSquareSecondClick(row, col)}
+              {...props}
+            />
+          )}
+        />
+      </Board>
     </div>
   );
 };
