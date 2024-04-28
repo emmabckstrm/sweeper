@@ -1,19 +1,21 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { Input } from "../../app/components/Input";
+import { Button } from "./Button";
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
-const meta: Meta<typeof Input> = {
-  title: "Sweeper/Input",
-  component: Input,
+const meta: Meta<typeof Button> = {
+  title: "Sweeper/Button",
+  component: Button,
   tags: ["autodocs"],
   argTypes: {},
 };
 
 export default meta;
-type Story = StoryObj<typeof Input>;
+type Story = StoryObj<typeof Button>;
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
-export const Unopened: Story = {
-  args: {},
+export const Default: Story = {
+  args: {
+    children: "I'm a button",
+  },
 };

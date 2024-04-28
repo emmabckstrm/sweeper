@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { Board } from "../../app/components/Board";
-import { Square } from "../../app/components/Square";
-import { initGameBoard } from "../../app/src/setup";
+import { Board } from "./Board";
+import { Square } from "./Square";
+import { initGameBoard } from "../src/setup";
 
 const meta: Meta<typeof Board> = {
   title: "Sweeper/Board",
