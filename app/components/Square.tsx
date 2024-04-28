@@ -74,7 +74,7 @@ export const Square = ({
   };
 
   const squareContent = () => {
-    if (isFlagged) return "F";
+    if (isFlagged) return "⚑";
     if (!isOpen) return null;
     if (isBomb) return "X";
     if (adjacentBombs > 0) return adjacentBombs;

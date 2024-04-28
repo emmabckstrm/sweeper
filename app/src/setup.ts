@@ -53,7 +53,6 @@ export const generateBombPositions = (
     throw new Error("too many bombs!");
   }
   const positions: Position[] = [];
-  console.log("generate bombs!", numberOfBombs);
   const random = (max: number): number => {
     return Math.floor(Math.random() * max);
   };

@@ -20,6 +20,7 @@ import {
   getNumberOfOpenSquares,
   setAllSquaresToOpen,
   allowSquareInteraction,
+  getNumberOfFlagsPlaced,
 } from "./src/gamePlay";
 import { Grid } from "./components/Grid";
 import { BoardLayout } from "./components/BoardLayout";
@@ -30,21 +31,11 @@ import { Button } from "./components/Button";
 export const Sweeper = () => {
   const [gameState, setGameState] = useState<GameState>("idle");
   const [gameBoard, setGameBoard] = useState<GameBoard>([]);
-  const [numberOfOpenedSquares, setNumberOfOpenedSquares] = useState<number>(0);
   const [numberOfSquaresToOpen, setNumberOfSquaresToOpen] = useState<number>(0);
   const [totalBombs, setTotalBombs] = useState<number>(0);
 
-  const numberOfFlagsPlaced = useMemo(() => {
-    let numberOfFlags = 0;
-    gameBoard.forEach((row) => {
-      row.forEach((item) => {
-        if (item.status !== "flag") return;
-
-        numberOfFlags += 1;
-      });
-    });
-    return numberOfFlags;
-  }, [gameBoard]);
+  const numberOfFlagsPlaced = getNumberOfFlagsPlaced(gameBoard);
+  const numberOfOpenedSquares = getNumberOfOpenSquares(gameBoard);
 
   const updateSquare = (
     row: number,
@@ -65,7 +56,6 @@ export const Sweeper = () => {
 
   const handleOnGameReset = () => {
     setGameBoard([]);
-    setNumberOfOpenedSquares(0);
     setTotalBombs(0);
     setGameState("idle");
   };
@@ -124,7 +114,6 @@ export const Sweeper = () => {
 
     board = getBoardWithOpenedSquares(row, col, board);
 
-    setNumberOfOpenedSquares(getNumberOfOpenSquares(board));
     setGameBoard(board);
     setGameState("running");
   };
@@ -135,7 +124,6 @@ export const Sweeper = () => {
     if (openedSquares === numberOfSquaresToOpen) {
       handleOnGameWin(newBoard);
     } else {
-      setNumberOfOpenedSquares(openedSquares);
       setGameBoard(newBoard);
     }
   };
@@ -181,8 +169,23 @@ export const Sweeper = () => {
       <BoardLayout
         Header={
           <HeaderLayout
-            Title={"Sweeper"}
-            CenterElement={`Bombs left: ${totalBombs - numberOfFlagsPlaced}`}
+            Title={"minesweeper"}
+            LeftElement={
+              <>
+                <span className="text-sm">
+                  {`${totalBombs - numberOfFlagsPlaced} / ${totalBombs}`}
+                </span>
+              </>
+            }
+            CenterElement={
+              <span
+                className="text-xl cursor-pointer"
+                onClick={handleOnGameReset}
+              >
+                {gameState === "loss" ? "✘" : "☻"}
+              </span>
+            }
+            RightElement={``}
           />
         }
       >

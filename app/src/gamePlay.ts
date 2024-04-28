@@ -43,15 +43,27 @@ export const getBoardWithOpenedSquares = (
 };
 
 export const getNumberOfOpenSquares = (board: GameBoard) => {
-  let numberOfOpenedSquares = 0;
+  let total = 0;
   board.forEach((row) => {
     row.forEach((square) => {
       if (isOpen(square)) {
-        numberOfOpenedSquares += 1;
+        total += 1;
       }
     });
   });
-  return numberOfOpenedSquares;
+  return total;
+};
+
+export const getNumberOfFlagsPlaced = (board: GameBoard) => {
+  let total = 0;
+  board.forEach((row) => {
+    row.forEach((square) => {
+      if (isFlagged(square)) {
+        total += 1;
+      }
+    });
+  });
+  return total;
 };
 
 export const setAllSquaresToOpen = (_board: GameBoard) => {

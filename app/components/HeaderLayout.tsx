@@ -14,13 +14,13 @@ export const HeaderLayout = ({
   RightElement,
 }: Props) => {
   return (
-    <header className="w-full bg-violet-800 text-white flex flex-col p-2">
-      <h1 className="text-center font-bold text-3xl">{Title}</h1>
+    <header className="w-full bg-purple-400 text-white flex flex-col p-2">
+      <h1 className="text-center font-bold text-3xl font-mono">{Title}</h1>
 
       <div className="flex flex-row gap-2">
-        <div className="flex-1 text-right ">{LeftElement}</div>
+        <div className="flex-1 text-left">{LeftElement}</div>
         <div className=" ">{CenterElement}</div>
-        <div className="flex-1 ">{RightElement}</div>
+        <div className="flex-1 text-right">{RightElement}</div>
       </div>
     </header>
   );
