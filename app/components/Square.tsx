@@ -4,6 +4,7 @@ import type { SquareStatus } from "../src/types";
 const BASE_CLASSES = "font-mono p-2 border w-10 h-10 block font-bold";
 const UNOPENED_CLASSES = "bg-purple-400 border-purple-700 text-black";
 const OPENED_CLASSES = "bg-gray-200 border-gray-300";
+const QUESTION_MARKED_CLASSES = "bg-purple-300 border-purple-600";
 const BOMB_CLASSES = "bg-amber-500 border-amber-700 text-black";
 
 export interface SquareT extends SquareStatus {
@@ -20,6 +21,7 @@ export const Square = ({
 }: SquareT) => {
   const isOpen = status === "open";
   const isFlagged = status === "flag";
+  const isQuestionMarked = status === "question";
 
   const handleSecondClick = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -29,19 +31,15 @@ export const Square = ({
   };
 
   const style = () => {
-    let style;
-    if (!isOpen) {
-      style = UNOPENED_CLASSES;
-    } else if (isBomb) {
-      style = BOMB_CLASSES;
-    } else {
-      style = OPENED_CLASSES;
-    }
-    return style;
+    if (isQuestionMarked) return QUESTION_MARKED_CLASSES;
+    if (!isOpen) return UNOPENED_CLASSES;
+    if (isBomb) return BOMB_CLASSES;
+    if (isOpen) return OPENED_CLASSES;
   };
 
   const textColor = () => {
     let color;
+    if (isQuestionMarked) return "text-purple-700";
     if (!isOpen || isBomb || isFlagged) return "text-black";
 
     switch (adjacentBombs) {
@@ -75,6 +73,7 @@ export const Square = ({
 
   const squareContent = () => {
     if (isFlagged) return "⚑";
+    if (isQuestionMarked) return "?";
     if (!isOpen) return null;
     if (isBomb) return "X";
     if (adjacentBombs > 0) return adjacentBombs;

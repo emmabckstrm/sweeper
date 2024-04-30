@@ -48,3 +48,10 @@ export const Flagged: Story = {
     status: "flag",
   },
 };
+
+export const QuestionMarked: Story = {
+  args: {
+    isBomb: true,
+    status: "question",
+  },
+};

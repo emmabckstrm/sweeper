@@ -21,6 +21,7 @@ import {
   setAllSquaresToOpen,
   allowSquareInteraction,
   getNumberOfFlagsPlaced,
+  isUnopened,
 } from "./src/gamePlay";
 import { Grid } from "./components/Grid";
 import { BoardLayout } from "./components/BoardLayout";
@@ -135,6 +136,9 @@ export const Sweeper = () => {
         newStatus = "flag";
         break;
       case "flag":
+        newStatus = "question";
+        break;
+      case "question":
         newStatus = "unopened";
         break;
     }
@@ -144,6 +148,7 @@ export const Sweeper = () => {
   const handleOnSquareClick = (row: number, col: number) => {
     const square = gameBoard[row][col];
     if (!allowSquareInteraction(square, gameState)) return;
+    if (!isUnopened(square)) return;
 
     if (numberOfOpenedSquares === 0) {
       const adjacents = getAdjacentSquares(row, col, gameBoard);

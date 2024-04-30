@@ -42,3 +42,42 @@ export const WithSquares: Story = {
     ),
   },
 };
+
+export const WithSquaresWithDifferentStatuses: Story = {
+  args: {
+    grid: [
+      [
+        { isBomb: true, status: "unopened" },
+        { isBomb: false, status: "unopened" },
+      ],
+      [
+        { isBomb: true, status: "open" },
+        { isBomb: false, status: "open" },
+      ],
+      [
+        { isBomb: true, status: "flag" },
+        { isBomb: false, status: "flag" },
+      ],
+      [
+        { isBomb: true, status: "question" },
+        { isBomb: false, status: "question" },
+      ],
+      [
+        { adjacentBombs: 4, status: "unopened" },
+        { adjacentBombs: 4, status: "open" },
+      ],
+      [
+        { adjacentBombs: 4, status: "flag" },
+        { adjacentBombs: 4, status: "question" },
+      ],
+    ],
+    renderSquare: ({ col, row, ...props }) => (
+      <Square
+        key={`row-${row}-col-${col}`}
+        onClick={() => {}}
+        onSecondClick={() => {}}
+        {...(props as SquareStatus)}
+      />
+    ),
+  },
+};

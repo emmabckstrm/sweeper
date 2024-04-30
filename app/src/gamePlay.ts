@@ -20,7 +20,7 @@ export const getBoardWithOpenedSquares = (
   let gameBoard = _gameBoard.slice();
   const square = gameBoard[row][col];
 
-  if (!isOpen(square) && !square.isBomb && !isFlagged(square)) {
+  if (isUnopened(square)) {
     if (square.adjacentBombs > 0) {
       gameBoard = updateBoardWithSquare(gameBoard, row, col, {
         status: "open",
@@ -81,6 +81,9 @@ export const setAllSquaresToOpen = (_board: GameBoard) => {
 
 export const isOpen = (square: SquareStatus) => {
   return square.status === "open";
+};
+export const isUnopened = (square: SquareStatus) => {
+  return square.status === "unopened";
 };
 export const isFlagged = (square: SquareStatus) => {
   return square.status === "flag";

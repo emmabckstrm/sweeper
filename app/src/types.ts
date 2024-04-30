@@ -1,4 +1,4 @@
-export type SquareState = "unopened" | "open" | "flag";
+export type SquareState = "unopened" | "open" | "flag" | "question";
 export interface SquareStatus {
   isBomb: boolean;
   adjacentBombs: number;
