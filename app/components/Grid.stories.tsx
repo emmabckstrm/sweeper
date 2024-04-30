@@ -25,14 +25,14 @@ export const Default: Story = {
       [1, 2],
       [2, 3],
     ],
-    renderSquare: ({ col, row }) => `${row}${col}`,
+    renderItem: ({ col, row }) => `${row}${col}`,
   },
 };
 
 export const WithSquares: Story = {
   args: {
     grid: gameBoard,
-    renderSquare: ({ col, row, ...props }) => (
+    renderItem: ({ col, row, ...props }) => (
       <Square
         key={`row-${row}-col-${col}`}
         onClick={() => {}}
@@ -71,7 +71,7 @@ export const WithSquaresWithDifferentStatuses: Story = {
         { adjacentBombs: 4, status: "question" },
       ],
     ],
-    renderSquare: ({ col, row, ...props }) => (
+    renderItem: ({ col, row, ...props }) => (
       <Square
         key={`row-${row}-col-${col}`}
         onClick={() => {}}

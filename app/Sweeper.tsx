@@ -204,7 +204,7 @@ export const Sweeper = () => {
         {gameState !== "idle" && (
           <Grid
             grid={gameBoard}
-            renderSquare={({ row, col, ...props }) => (
+            renderItem={({ row, col, ...props }) => (
               <Square
                 key={`row-${row}-col-${col}`}
                 onClick={() => handleOnSquareClick(row, col)}

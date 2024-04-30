@@ -1,26 +1,26 @@
 import { ReactNode } from "react";
 
-interface Square {
+interface Item {
   row: number;
   col: number;
 }
 
 interface Props<T> {
   grid: T[][];
-  renderSquare: (arg0: T & Square) => ReactNode;
+  renderItem: (arg0: T & Item) => ReactNode;
 }
 
-export const Grid = <T,>({ grid, renderSquare }: Props<T>) => {
+export const Grid = <T,>({ grid, renderItem }: Props<T>) => {
   return (
     <div className="shadow-sm inline-block bg-purple-600 p-1 rounded-md">
       {grid.map((row, rowIndex) => {
         return (
           <div key={`row-${rowIndex}`} className="flex flex-row">
-            {row.map((col, colIndex) => {
-              return renderSquare({
+            {row.map((item, colIndex) => {
+              return renderItem({
                 row: rowIndex,
                 col: colIndex,
-                ...col,
+                ...item,
               });
             })}
           </div>
